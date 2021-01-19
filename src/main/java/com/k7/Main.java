@@ -1,9 +1,8 @@
 package com.k7;
 
-import java.util.List;
-import java.util.Set;
+import com.k7.groupPayments.*;
 
-import java.util.stream.Collectors;
+import java.util.Scanner;
 
 
 public class Main {
@@ -19,10 +18,35 @@ public class Main {
                 " направлений 674569874 развития. ";
 
         PhoneParser phoneParser = new PhoneParser(text);
+        Scanner sc = new Scanner(System.in);
+        Payments payments = new Payments();
+        Parser parser = new Parser(payments);
+        //UserInput userInput = new ConsoleUserInput(sc, parser);
+        UserInput userInput = new StringUserInput(parser);
+        Calculation calculation = new Calculation(payments);
+
+
         phoneParser.formatter();
 
-Parser parser = new Parser();
-parser.parse("-700 закупка аппаратуры;-150 услуги почты;+2000 продажа товара;-200 услуги почты");
 
+        String[] input = {"-700 закупка аппаратуры",
+                "-150 услуги почты",
+                "+480 аренда помещений",
+                "+150 аренда подвижного состава",
+                "+2000 продажа товара",
+                "-200 услуги почты",
+                "-4500 штрафные санкции",
+                "+100 аренда помещений",
+                "-50 канцелярия",
+                "END"};
+
+
+        System.out.println("Grouping payments");
+        System.out.println("----------------------------");
+        System.out.println("Enter your income and expense");
+        //userInput.start(sc.nextLine()); //for ConsoleUserInput
+        userInput.start(input); //for StringUserInput
+        //payments.showPayments();
+        calculation.showResult();
     }
 }
